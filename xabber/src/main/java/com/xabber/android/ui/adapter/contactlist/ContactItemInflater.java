@@ -8,6 +8,7 @@ import com.xabber.android.R;
 import com.xabber.android.data.SettingsManager;
 import com.xabber.android.data.account.AccountItem;
 import com.xabber.android.data.account.AccountManager;
+import com.xabber.android.data.account.StatusMode;
 import com.xabber.android.data.connection.ConnectionState;
 import com.xabber.android.data.database.messagerealm.MessageItem;
 import com.xabber.android.data.entity.BaseEntity;
@@ -139,6 +140,11 @@ class ContactItemInflater {
         }
 
         viewHolder.statusIcon.setImageLevel(contact.getStatusMode().getStatusLevel());
+
+        if (!messageManager.hasActiveChat(contact.getAccount(), contact.getUser())
+                && !contact.getStatusMode().isOnline())
+            viewHolder.statusIcon.setVisibility(View.INVISIBLE);
+        else viewHolder.statusIcon.setVisibility(View.VISIBLE);
     }
 
     void onAvatarClick(BaseEntity contact) {
